@@ -1,21 +1,25 @@
 module.exports = {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "es6": true
     },
     "extends": [
         "plugin:react/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react-hooks/recommended",
         "airbnb"
     ],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 13,
+        "ecmaVersion": 2020,
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks",
     ],
     "rules": {
         "react/prop-types": 0,
@@ -31,8 +35,7 @@ module.exports = {
           "error",
           "always"
         ],
-        "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn",
+        
         "no-unused-vars": "warn",
         "no-console": "off",
         "func-names": "off",
