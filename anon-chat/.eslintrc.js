@@ -41,6 +41,13 @@ module.exports = {
         "func-names": "off",
         "no-process-exit": "off",
         "object-shorthand": "off",
-        "class-methods-use-this": "off"
+        "class-methods-use-this": "off",
+
+        "react/jsx-props-no-spreading": 0,
+
+        "max-len": [2, {
+          "code": 88,
+        }],
+        'object-curly-newline': 'off',
       }
 };

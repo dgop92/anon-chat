@@ -1,15 +1,19 @@
 import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
 import { lightThemeOptions } from "../styles/theme";
+import Lobby from "./Lobby";
 
 const theme = createTheme(lightThemeOptions);
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Button variant="contained">hola</Button>
-    </ThemeProvider>
+    <>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <Lobby />
+      </ThemeProvider>
+    </>
   );
 }
 

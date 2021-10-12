@@ -14,4 +14,18 @@ export const lightThemeOptions = {
   typography: {
     fontFamily: "\"Lato\", \"Helvetica\", \"Arial\", sans-serif",
   },
+  components: {
+    MuiButton: {
+      defaultProps: {
+        disableFocusRipple: true,
+        disableElevation: true,
+        disableRipple: true,
+      },
+      styleOverrides: {
+        containedPrimary: {
+          textTransform: "capitalize",
+        },
+      },
+    },
+  },
 };
