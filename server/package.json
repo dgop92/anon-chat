@@ -1,0 +1,11 @@
+{
+  "name": "anon-chat-server",
+  "version": "1.0.0",
+  "description": "anon chat server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "dgop92",
+  "license": "ISC"
+}
