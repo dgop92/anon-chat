@@ -2,7 +2,7 @@ import React from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { lightThemeOptions } from "../styles/theme";
-import Lobby from "./Lobby";
+import AppSetup from "./AppSetup";
 
 const theme = createTheme(lightThemeOptions);
 
@@ -11,7 +11,7 @@ function App() {
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <Lobby />
+        <AppSetup />
       </ThemeProvider>
     </>
   );
