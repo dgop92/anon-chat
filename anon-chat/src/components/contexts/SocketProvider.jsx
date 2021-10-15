@@ -20,6 +20,8 @@ export function SocketProvider({ userNickname, children }) {
   }, [userNickname]);
 
   return (
-    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+    <SocketContext.Provider value={{ socket, userNickname }}>
+      {children}
+    </SocketContext.Provider>
   );
 }

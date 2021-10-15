@@ -1,32 +1,22 @@
 /* eslint-disable react/no-array-index-key */
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Box, Paper, TextareaAutosize, Typography } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useSocket } from "./contexts/SocketProvider";
 // import PrimaryButton from "./base/PrimaryButton";
 
-const testMesages = [
-  {
-    sender: "pedro",
-    message: "lore ams das das das ",
-  },
-  {
-    sender: "juan",
-    message: "123 ams das das das ",
-  },
-  {
-    sender: "juan",
-    message: "123 asdasd das das das ",
-  },
-];
-
 export default function ChatRoom() {
-  const socket = useSocket();
+  const { socket, userNickname } = useSocket();
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    if (socket == null) return;
+    if (socket == null) return undefined;
 
-    console.log(socket.connected);
+    socket.on("on-new-message", (data) => {
+      setMessages((oldMessages) => [...oldMessages, data]);
+    });
+
+    return () => socket.off("on-new-message");
   }, [socket]);
 
   return (
@@ -55,15 +45,21 @@ export default function ChatRoom() {
           Chat
         </Typography>
       </Box>
-      <MessageContainer messages={testMesages} />
-      <InputContainer />
+      <MessageContainer messages={messages} userNickname={userNickname} />
+      <InputContainer socket={socket} />
     </Box>
   );
 }
 
-function MessageContainer({ messages }) {
+function MessageContainer({ messages, userNickname }) {
+  const containerRef = useRef(null);
+  useEffect(() => {
+    const container = containerRef.current;
+    container.scrollTop = container.scrollHeight;
+  }, [messages]);
   return (
     <Box
+      ref={containerRef}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -72,23 +68,31 @@ function MessageContainer({ messages }) {
       }}
     >
       {messages.map((m, index) => (
-        <MessageItem key={index} message={m.message} sender={m.sender} />
+        <MessageItem
+          key={index}
+          message={m.message}
+          sender={m.sender}
+          fromSender={userNickname === m.sender}
+        />
       ))}
     </Box>
   );
 }
 
-function InputContainer() {
+function InputContainer({ socket }) {
   const theme = useTheme();
   const textAreaRef = useRef(null);
 
-  const handleSendMessage = (e) => {
-    if (e.key === "Enter") {
-      console.log(textAreaRef.current.value);
-      textAreaRef.current.value = "";
-      e.preventDefault();
-    }
-  };
+  const handleSendMessage = useCallback(
+    (e) => {
+      if (e.key === "Enter") {
+        socket.emit("send-message", textAreaRef.current.value);
+        textAreaRef.current.value = "";
+        e.preventDefault();
+      }
+    },
+    [socket]
+  );
 
   useEffect(() => {
     const tArea = textAreaRef.current;
@@ -96,7 +100,7 @@ function InputContainer() {
     return () => {
       tArea.removeEventListener("keypress", handleSendMessage);
     };
-  }, []);
+  }, [handleSendMessage]);
 
   return (
     <Box
@@ -124,7 +128,9 @@ function InputContainer() {
   );
 }
 
-function MessageItem({ message, sender }) {
+function MessageItem({ message, sender, fromSender }) {
+  const extraStyles = fromSender ? { alignSelf: "flex-end" } : {};
+
   return (
     <Box
       sx={{
@@ -133,6 +139,7 @@ function MessageItem({ message, sender }) {
         p: 1.2,
         m: 1,
         borderRadius: 2,
+        ...extraStyles,
       }}
       component={Paper}
       elevation={1}
