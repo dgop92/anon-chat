@@ -14,14 +14,18 @@ export default function Lobby({ goToChatRoom }) {
   };
 
   return (
-    <Box elevation={1} m={2} p={3} sx={{ maxWidth: 800 }} component={Paper}>
-      <Typography sx={{ fontWeight: 700 }} mb={2} variant="h4" component="h4">
+    <Box
+      elevation={1}
+      sx={{ width: "85vw", maxWidth: 800, m: 2, p: 3 }}
+      component={Paper}
+    >
+      <Typography sx={{ fontWeight: 700, mb: 2 }} variant="h4" component="h4">
         Anon Chat
       </Typography>
       <Typography mb={2} variant="body1" component="p">
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam ratione
-        sapiente qui, voluptas totam a molestias est. Quisquam, aut. Cupiditate
-        eaque atque culpa ex maiores?
+        sapiente qui, voluptas totam a molestias est. Quisquam, aut. Cupiditate eaque
+        atque culpa ex maiores?
       </Typography>
       <form onSubmit={onSubmit}>
         <TextField
@@ -40,7 +44,7 @@ export default function Lobby({ goToChatRoom }) {
           }}
           helperText="Only characters and digits are allowed"
         />
-        <Box mt={2} sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
           <PrimaryButton type="submit" variant="contained">
             Join
           </PrimaryButton>
