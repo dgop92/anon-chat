@@ -1,23 +1,18 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { Box, Paper, TextareaAutosize, Typography } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  Paper,
+  TextareaAutosize,
+  Typography,
+} from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useSocket } from "./contexts/SocketProvider";
 // import PrimaryButton from "./base/PrimaryButton";
 
 export default function ChatRoom() {
-  const { socket, userNickname } = useSocket();
-  const [messages, setMessages] = useState([]);
-
-  useEffect(() => {
-    if (socket == null) return undefined;
-
-    socket.on("on-new-message", (data) => {
-      setMessages((oldMessages) => [...oldMessages, data]);
-    });
-
-    return () => socket.off("on-new-message");
-  }, [socket]);
+  const { socket, userNickname, socketConnected } = useSocket();
 
   return (
     <Box
@@ -45,8 +40,56 @@ export default function ChatRoom() {
           Chat
         </Typography>
       </Box>
+      {socketConnected ? (
+        <ChatReady socket={socket} userNickname={userNickname} />
+      ) : (
+        <ChatLoading />
+      )}
+    </Box>
+  );
+}
+
+function ChatReady({ socket, userNickname }) {
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    if (socket == null) return undefined;
+
+    socket.on("on-new-message", (data) => {
+      setMessages((oldMessages) => [...oldMessages, data]);
+    });
+
+    return () => socket.off("on-new-message");
+  }, [socket]);
+  return (
+    <>
       <MessageContainer messages={messages} userNickname={userNickname} />
       <InputContainer socket={socket} />
+    </>
+  );
+}
+
+function ChatLoading() {
+  return (
+    <Box
+      sx={{
+        flexGrow: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        p: 2,
+      }}
+    >
+      <Typography
+        sx={{ fontWeight: 700, mb: 4 }}
+        variant="h4"
+        component="h5"
+        textAlign="center"
+      >
+        Connecting to the server...
+      </Typography>
+      <CircularProgress color="primary" />
     </Box>
   );
 }

@@ -9,18 +9,30 @@ export function useSocket() {
 
 export function SocketProvider({ userNickname, children }) {
   const [socket, setSocket] = useState();
+  const [socketConnected, setSocketConnected] = useState(false);
 
   useEffect(() => {
     const newSocket = io(process.env.REACT_APP_CHAT_WEBSOCKET_SERVER, {
       query: { userNickname },
     });
     setSocket(newSocket);
-    // console.log(newSocket);
-    return () => newSocket.close();
+
+    newSocket.on("connect", () => {
+      setSocketConnected(true);
+    });
+    newSocket.on("disconnect", () => {
+      setSocketConnected(false);
+    });
+
+    return () => {
+      newSocket.close();
+      newSocket.off("connect");
+      newSocket.off("disconnect");
+    };
   }, [userNickname]);
 
   return (
-    <SocketContext.Provider value={{ socket, userNickname }}>
+    <SocketContext.Provider value={{ socket, userNickname, socketConnected }}>
       {children}
     </SocketContext.Provider>
   );
