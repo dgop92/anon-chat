@@ -18,13 +18,13 @@ export default function ChatRoom() {
     <Box
       elevation={1}
       sx={{
-        m: 2,
+        m: { xs: 0, sm: 2 },
         maxWidth: 1200,
-        width: "85vw",
-        maxHeight: 600,
-        height: "70vh",
+        width: { xs: "100vw", sm: "85vw" },
+        height: { xs: "100vh", sm: "90vh" },
         display: "flex",
         flexDirection: "column",
+        borderRadius: (theme) => theme.spacing(1.5),
         backgroundColor: (theme) => alpha(theme.palette.background.paper, 0.9),
       }}
       component={Paper}
@@ -34,7 +34,12 @@ export default function ChatRoom() {
           p: 2,
           backgroundColor: "primary.main",
           color: "primary.contrastText",
+          borderRadius: 0,
+          borderTopRightRadius: (theme) => theme.spacing(1.5),
+          borderTopLeftRadius: (theme) => theme.spacing(1.5),
         }}
+        elevation={2}
+        component={Paper}
       >
         <Typography sx={{ fontWeight: 700 }} variant="h5" component="h5">
           Chat
@@ -75,21 +80,28 @@ function ChatLoading() {
       sx={{
         flexGrow: 1,
         display: "flex",
-        flexDirection: "column",
+        flexDirection: {
+          xs: "column",
+          sm: "row-reverse",
+        },
         alignItems: "center",
         justifyContent: "center",
         p: 2,
       }}
     >
       <Typography
-        sx={{ fontWeight: 700, mb: 4 }}
+        sx={{
+          fontWeight: 700,
+          mb: { xs: 4, sm: 0 },
+          fontSize: { xs: "1.8rem", sm: "2.125rem" },
+        }}
         variant="h4"
-        component="h5"
+        component="h4"
         textAlign="center"
       >
         Connecting to the server...
       </Typography>
-      <CircularProgress color="primary" />
+      <CircularProgress color="primary" sx={{ mr: { xs: 0, sm: 3 } }} />
     </Box>
   );
 }
@@ -152,6 +164,8 @@ function InputContainer({ socket }) {
         justifyContent: "center",
         backgroundColor: "primary.light",
         py: 1,
+        borderBottomRightRadius: theme.spacing(1.5),
+        borderBottomLeftRadius: theme.spacing(1.5),
       }}
     >
       <TextareaAutosize
@@ -177,7 +191,9 @@ function MessageItem({ message, sender, fromSender }) {
   return (
     <Box
       sx={{
-        width: "33%",
+        maxWidth: "45%",
+        width: "fit-content",
+        minWidth: "20%",
         backgroundColor: "background.paper",
         p: 1.2,
         m: 1,
