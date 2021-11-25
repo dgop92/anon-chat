@@ -9,10 +9,26 @@ import {
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
 import { useSocket } from "./contexts/SocketProvider";
+import { emitNames, listenerNames } from "../constants";
 // import PrimaryButton from "./base/PrimaryButton";
 
 export default function ChatRoom() {
   const { socket, userNickname, socketConnected } = useSocket();
+
+  useEffect(() => {
+    console.log("active useffect");
+    if (socket == null) return undefined;
+
+    if (socketConnected) {
+      console.log("active listener");
+      socket.on(listenerNames.NEW_CLIENT, (data) => {
+        console.log(data);
+      });
+    }
+    return () => {
+      socket.off(listenerNames.NEW_CLIENT);
+    };
+  }, [socket, socketConnected]);
 
   return (
     <Box
@@ -60,11 +76,11 @@ function ChatReady({ socket, userNickname }) {
   useEffect(() => {
     if (socket == null) return undefined;
 
-    socket.on("on-new-message", (data) => {
+    socket.on(listenerNames.NEW_MESSAGE, (data) => {
       setMessages((oldMessages) => [...oldMessages, data]);
     });
 
-    return () => socket.off("on-new-message");
+    return () => socket.off(listenerNames.NEW_MESSAGE);
   }, [socket]);
   return (
     <>
@@ -141,7 +157,7 @@ function InputContainer({ socket }) {
   const handleSendMessage = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        socket.emit("send-message", textAreaRef.current.value);
+        socket.emit(emitNames.SEND_MESSAGE, textAreaRef.current.value);
         textAreaRef.current.value = "";
         e.preventDefault();
       }
