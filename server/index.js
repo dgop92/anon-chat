@@ -1,5 +1,5 @@
 const dotenv = require("dotenv");
-const { listenerNames, emitNames } = require("./constants");
+const { listenerNames, emitNames, MAX_USERS } = require("./constants");
 dotenv.config();
 
 const io = require("socket.io")(8080, {
@@ -13,10 +13,25 @@ const usernames = new Map();
 
 io.on("connection", (socket) => {
   const name = socket.handshake.query.userNickname;
+  if (!/\w+/.test(name)) {
+    socket.emit(emitNames.ENTRY_ERROR, {
+      errorMessage: "invalid username",
+    });
+    // maybe it was already disconnect from the client
+    setTimeout(() => socket?.disconnect(true), 3000);
+  }
   if (usernames.has(name)) {
-    socket.disconnect(true);
-    //send message to user
+    socket.emit(emitNames.ENTRY_ERROR, {
+      errorMessage: "The username is already taken",
+    });
+    setTimeout(() => socket?.disconnect(true), 3000);
+  } else if (io.engine.clientsCount > MAX_USERS) {
+    socket.emit(emitNames.ENTRY_ERROR, {
+      errorMessage: "The chat is full, wait until someone left chat",
+    });
+    setTimeout(() => socket?.disconnect(true), 3000);
   } else {
+    socket.emit(emitNames.SUCCESS_CONNECTION);
     usernames.set(name, { color: "#000" });
 
     io.emit(emitNames.NEW_CLIENT, {

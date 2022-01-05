@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import Box from "@mui/material/Box";
 import { Lobby, ChatRoom } from "../pages";
-import { SocketProvider } from "../providers/SocketProvider";
+import { useSocket } from "../providers/SocketProvider";
 
 const BACKGROUND_IMAGE_URL = "https://source.unsplash.com/CdBPMI26KDo/1920x1280";
 
 export default function AppSetup() {
-  const [userNickname, setUserNickname] = useState("");
-
-  const goToChatRoom = (name) => {
-    setUserNickname(name);
-  };
+  const { socketConnected } = useSocket();
 
   return (
     <Box
@@ -22,13 +18,7 @@ export default function AppSetup() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {userNickname ? (
-        <SocketProvider userNickname={userNickname}>
-          <ChatRoom />
-        </SocketProvider>
-      ) : (
-        <Lobby goToChatRoom={goToChatRoom} />
-      )}
+      {socketConnected ? <ChatRoom /> : <Lobby />}
     </Box>
   );
 }

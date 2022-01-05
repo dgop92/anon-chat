@@ -3,6 +3,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { lightThemeOptions } from "../styles/theme";
 import AppSetup from "./AppSetup";
+import { SocketProvider } from "../providers/SocketProvider";
 
 const theme = createTheme(lightThemeOptions);
 
@@ -11,7 +12,9 @@ function App() {
     <>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        <AppSetup />
+        <SocketProvider>
+          <AppSetup />
+        </SocketProvider>
       </ThemeProvider>
     </>
   );

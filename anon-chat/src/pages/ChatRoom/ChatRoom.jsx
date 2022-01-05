@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import { Box, IconButton, Paper, Typography } from "@mui/material";
 import ListIcon from "@mui/icons-material/List";
 import { alpha } from "@mui/material/styles";
-import { useSocket } from "../../providers/SocketProvider";
 import { ChatReady } from "./ChatReady";
-import { ChatLoading } from "./ChatLoading";
 import OnlineUsersModal from "./OnlineUsersModal/OnlineUsersModal";
 
 export default function ChatRoom() {
-  const { socketConnected } = useSocket();
   const [usersModal, setUsersModal] = useState(false);
 
   return (
@@ -52,7 +49,7 @@ export default function ChatRoom() {
             <ListIcon sx={{ color: "primary.contrastText" }} />
           </IconButton>
         </Box>
-        {socketConnected ? <ChatReady /> : <ChatLoading />}
+        <ChatReady />
       </Box>
     </>
   );

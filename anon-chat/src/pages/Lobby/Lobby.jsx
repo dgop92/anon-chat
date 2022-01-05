@@ -1,17 +1,19 @@
 import React, { useState } from "react";
-import { Box, TextField, Typography, Paper } from "@mui/material";
+import { Box, TextField, Typography, Paper, LinearProgress } from "@mui/material";
 import { PrimaryButton } from "../../components/Button";
+import { useSocket } from "../../providers/SocketProvider";
 
-export default function Lobby({ goToChatRoom }) {
+export default function Lobby() {
   const [name, setName] = useState("");
+  const { setUserNickname, loading, errorMessage } = useSocket();
 
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
 
   const onSubmit = (event) => {
-    goToChatRoom(name);
     event.preventDefault();
+    setUserNickname(name);
   };
 
   return (
@@ -43,13 +45,18 @@ export default function Lobby({ goToChatRoom }) {
             maxLength: 25,
             pattern: "\\w+",
           }}
-          helperText="Only characters and digits are allowed"
+          error={!!errorMessage}
+          helperText={errorMessage || "Only characters and digits are allowed"}
         />
-        <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
-          <PrimaryButton type="submit" variant="contained">
-            Join
-          </PrimaryButton>
-        </Box>
+        {loading ? (
+          <LinearProgress sx={{ mt: 4 }} />
+        ) : (
+          <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 2 }}>
+            <PrimaryButton type="submit" variant="contained">
+              Join
+            </PrimaryButton>
+          </Box>
+        )}
       </form>
     </Box>
   );
