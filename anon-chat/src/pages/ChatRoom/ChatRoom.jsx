@@ -6,15 +6,14 @@ import { ChatReady } from "./ChatReady";
 import { ChatLoading } from "./ChatLoading";
 
 export default function ChatRoom() {
-  const { socket, userNickname, socketConnected } = useSocket();
+  const { socketConnected } = useSocket();
 
   return (
     <Box
       elevation={1}
       sx={{
-        m: { xs: 0, sm: 2 },
         maxWidth: 1200,
-        width: { xs: "100vw", sm: "85vw" },
+        width: { xs: "100vw", sm: "95vw" },
         height: { xs: "100vh", sm: "90vh" },
         display: "flex",
         flexDirection: "column",
@@ -29,8 +28,8 @@ export default function ChatRoom() {
           backgroundColor: "primary.main",
           color: "primary.contrastText",
           borderRadius: 0,
-          borderTopRightRadius: (theme) => theme.spacing(1.5),
-          borderTopLeftRadius: (theme) => theme.spacing(1.5),
+          borderTopRightRadius: "inherit",
+          borderTopLeftRadius: "inherit",
         }}
         elevation={2}
         component={Paper}
@@ -39,11 +38,7 @@ export default function ChatRoom() {
           Chat
         </Typography>
       </Box>
-      {socketConnected ? (
-        <ChatReady socket={socket} userNickname={userNickname} />
-      ) : (
-        <ChatLoading />
-      )}
+      {socketConnected ? <ChatReady /> : <ChatLoading />}
     </Box>
   );
 }

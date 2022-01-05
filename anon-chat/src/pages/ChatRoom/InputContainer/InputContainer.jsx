@@ -2,15 +2,18 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import { Box, TextareaAutosize } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { emitNames } from "../../../utils/constants";
+import { useSocket } from "../../../providers/SocketProvider";
 
-export default function InputContainer({ socket }) {
+export default function InputContainer() {
+  const { socket } = useSocket();
   const theme = useTheme();
   const textAreaRef = useRef(null);
 
   const handleSendMessage = useCallback(
     (e) => {
       if (e.key === "Enter") {
-        socket.emit("send-message", textAreaRef.current.value);
+        socket.emit(emitNames.SEND_MESSAGE, textAreaRef.current.value);
         textAreaRef.current.value = "";
         e.preventDefault();
       }
@@ -33,8 +36,8 @@ export default function InputContainer({ socket }) {
         justifyContent: "center",
         backgroundColor: "primary.light",
         py: 1,
-        borderBottomRightRadius: theme.spacing(1.5),
-        borderBottomLeftRadius: theme.spacing(1.5),
+        borderBottomRightRadius: "inherit",
+        borderBottomLeftRadius: "inherit",
       }}
     >
       <TextareaAutosize
