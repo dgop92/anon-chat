@@ -8,8 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { alpha, useTheme } from "@mui/material/styles";
-import { useSocket } from "./contexts/SocketProvider";
-// import PrimaryButton from "./base/PrimaryButton";
+import { useSocket } from "../../providers/SocketProvider";
 
 export default function ChatRoom() {
   const { socket, userNickname, socketConnected } = useSocket();
@@ -60,7 +59,7 @@ function ChatReady({ socket, userNickname }) {
   useEffect(() => {
     if (socket == null) return undefined;
 
-    socket.on("on-new-message", (data) => {
+    socket.on("new-message", (data) => {
       setMessages((oldMessages) => [...oldMessages, data]);
     });
 

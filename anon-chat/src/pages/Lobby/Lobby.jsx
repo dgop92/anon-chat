@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, TextField, Typography, Paper } from "@mui/material";
-import PrimaryButton from "./base/PrimaryButton";
+import { PrimaryButton } from "../../components/Button";
 
 export default function Lobby({ goToChatRoom }) {
   const [name, setName] = useState("");
@@ -8,6 +8,7 @@ export default function Lobby({ goToChatRoom }) {
   const handleNameChange = (event) => {
     setName(event.target.value);
   };
+
   const onSubmit = (event) => {
     goToChatRoom(name);
     event.preventDefault();

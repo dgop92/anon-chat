@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import Lobby from "./Lobby";
-import ChatRoom from "./ChatRoom";
-import { SocketProvider } from "./contexts/SocketProvider";
+import { Lobby, ChatRoom } from "../pages";
+import { SocketProvider } from "../providers/SocketProvider";
 
-const BACKGROUND_IMAGE_URL =
-  "https://source.unsplash.com/CdBPMI26KDo/1920x1280";
+const BACKGROUND_IMAGE_URL = "https://source.unsplash.com/CdBPMI26KDo/1920x1280";
 
 export default function AppSetup() {
   const [userNickname, setUserNickname] = useState("");
