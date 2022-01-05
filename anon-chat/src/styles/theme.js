@@ -5,6 +5,9 @@ export const lightThemeOptions = {
     type: "light",
     primary: {
       main: "#673ab7",
+      light: "#A081D5",
+      dark: "#360D7D",
+      contrastText: "rgba(255,255,255,1)",
     },
     secondary: {
       main: "#8bc34a",
@@ -12,7 +15,8 @@ export const lightThemeOptions = {
     },
   },
   typography: {
-    fontFamily: "\"Lato\", \"Helvetica\", \"Arial\", sans-serif",
+    // eslint-disable-next-line quotes
+    fontFamily: '"Lato", "Helvetica", "Arial", sans-serif',
   },
   components: {
     MuiButton: {
