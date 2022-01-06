@@ -42,7 +42,7 @@ export default function Lobby() {
           inputProps={{
             required: true,
             minLength: 2,
-            maxLength: 25,
+            maxLength: 10,
             pattern: "\\w+",
           }}
           error={!!errorMessage}

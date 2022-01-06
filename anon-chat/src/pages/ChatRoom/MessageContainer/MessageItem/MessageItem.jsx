@@ -7,9 +7,9 @@ export default function MessageItem({ message, sender, fromSender }) {
   return (
     <Box
       sx={{
-        maxWidth: "45%",
+        maxWidth: { xs: 260, sm: 400, md: 500 },
         width: "fit-content",
-        minWidth: "20%",
+        minWidth: 200,
         backgroundColor: "background.paper",
         p: 1.2,
         m: 1,
@@ -22,7 +22,9 @@ export default function MessageItem({ message, sender, fromSender }) {
       <Typography fontWeight={700} variant="body1">
         {sender}
       </Typography>
-      <Typography variant="body2">{message}</Typography>
+      <Typography variant="body2" sx={{ overflowWrap: "break-word" }}>
+        {message}
+      </Typography>
     </Box>
   );
 }
