@@ -6,7 +6,7 @@ import { useChatUsers } from "../hooks/useChatUsers";
 
 export default function OnlineUsersModal({ open, onClose }) {
   const { socket } = useSocket();
-  const { usernames } = useChatUsers({ socket });
+  const { users } = useChatUsers({ socket });
 
   return (
     <BaseModal
@@ -16,16 +16,16 @@ export default function OnlineUsersModal({ open, onClose }) {
     >
       <ModalHeader title="Online users" onClose={onClose} />
       <Box sx={{ display: "flex", flexWrap: "wrap", mt: 2.5 }}>
-        {usernames.map((username) => (
+        {users.map((user) => (
           <Chip
             sx={{
               m: 0.5,
               px: 1.5,
-              backgroundColor: "primary.light",
+              backgroundColor: user.color,
               color: "primary.contrastText",
             }}
-            key={username}
-            label={username}
+            key={user.username}
+            label={user.username}
             variant="filled"
           />
         ))}
@@ -33,3 +33,5 @@ export default function OnlineUsersModal({ open, onClose }) {
     </BaseModal>
   );
 }
+
+// backgroundColor: "primary.light",

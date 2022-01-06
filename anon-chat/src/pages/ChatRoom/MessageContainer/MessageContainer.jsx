@@ -19,12 +19,11 @@ export default function MessageContainer({ messages, userNickname }) {
         overflowY: "auto",
       }}
     >
-      {messages.map((m, index) => (
+      {messages.map((messageData, index) => (
         <MessageItem
           key={index}
-          message={m.message}
-          sender={m.sender}
-          fromSender={userNickname === m.sender}
+          messageData={messageData}
+          fromSender={userNickname === messageData.sender}
         />
       ))}
     </Box>

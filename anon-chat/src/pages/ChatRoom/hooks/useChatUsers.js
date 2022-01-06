@@ -2,18 +2,18 @@ import { useEffect, useState } from "react";
 import { listenerNames } from "../../../utils/constants";
 
 export function useChatUsers({ socket, onNewUser = () => {}, onUserLeft = () => {} }) {
-  const [usernames, setUsernames] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     if (socket == null) return undefined;
 
     socket.on(listenerNames.NEW_CLIENT, (data) => {
-      setUsernames(data.usernames);
+      setUsers(data.users);
       onNewUser(data.user);
     });
 
     socket.on(listenerNames.CLIENT_LEFT, (data) => {
-      setUsernames(data.usernames);
+      setUsers(data.users);
       onUserLeft(data.user);
     });
 
@@ -23,5 +23,5 @@ export function useChatUsers({ socket, onNewUser = () => {}, onUserLeft = () => 
     };
   }, [socket, onNewUser, onUserLeft]);
 
-  return { usernames };
+  return { users };
 }
