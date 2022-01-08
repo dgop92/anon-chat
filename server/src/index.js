@@ -1,6 +1,10 @@
 const dotenv = require("dotenv");
-const { listenerNames, emitNames, MAX_USERS } = require("./constants");
-const { getColorGenerator, createArrayOfUsersFromObject } = require("./utils");
+const { validators } = require("./core/validators");
+const { listenerNames, emitNames } = require("./utils/constants");
+const {
+  getColorGenerator,
+  createArrayOfUsersFromObject,
+} = require("./utils/helpers");
 dotenv.config();
 
 const io = require("socket.io")(8080, {
@@ -15,21 +19,17 @@ const colorGen = getColorGenerator();
 
 io.on("connection", (socket) => {
   const name = socket.handshake.query.userNickname;
-  if (!/\w{2,15}$/.test(name)) {
-    socket.emit(emitNames.ENTRY_ERROR, {
-      errorMessage: "invalid username",
-    });
-    // maybe it was already disconnect from the client
-    setTimeout(() => socket?.disconnect(true), 3000);
+  let errorMessage = "";
+  try {
+    for (const validator of validators) {
+      validator({ io, socket, users });
+    }
+  } catch (error) {
+    errorMessage = error.message;
   }
-  if (users.has(name)) {
+  if (errorMessage) {
     socket.emit(emitNames.ENTRY_ERROR, {
-      errorMessage: "The username is already taken",
-    });
-    setTimeout(() => socket?.disconnect(true), 3000);
-  } else if (io.engine.clientsCount > MAX_USERS) {
-    socket.emit(emitNames.ENTRY_ERROR, {
-      errorMessage: "The chat is full, wait until someone left chat",
+      errorMessage,
     });
     setTimeout(() => socket?.disconnect(true), 3000);
   } else {
