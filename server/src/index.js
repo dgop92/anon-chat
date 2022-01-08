@@ -7,7 +7,9 @@ const {
 } = require("./utils/helpers");
 dotenv.config();
 
-const io = require("socket.io")(8080, {
+const port = process.env.PORT || 8080;
+
+const io = require("socket.io")(port, {
   cors: {
     origins: process.env.CLIENT_URLS.split(","),
     methods: ["GET", "POST"],
