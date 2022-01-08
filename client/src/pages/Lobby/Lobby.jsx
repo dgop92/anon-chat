@@ -26,15 +26,14 @@ export default function Lobby() {
         Anon Chat
       </Typography>
       <Typography mb={2} variant="body1" component="p">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam ratione
-        sapiente qui, voluptas totam a molestias est. Quisquam, aut. Cupiditate eaque
-        atque culpa ex maiores?
+        A simple anonymous chat app using socket io and react js, Just write your
+        nickname and start chatting
       </Typography>
       <form onSubmit={onSubmit}>
         <TextField
           fullWidth
           id="chatName"
-          label="Nombre"
+          label="Nickname"
           variant="outlined"
           size="small"
           value={name}
