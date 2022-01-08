@@ -2,7 +2,10 @@
   "name": "anon-chat-server",
   "version": "1.0.0",
   "description": "anon chat server",
-  "main": "index.js",
+  "main": "src/index.js",
+  "engines": {
+    "node": "14.15.4"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js"
