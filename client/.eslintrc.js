@@ -21,7 +21,7 @@ module.exports = {
   plugins: ["react", "react-hooks"],
   rules: {
     "react/prop-types": 0,
-    "linebreak-style": ["error", "windows"],
+    "linebreak-style": 0,
     quotes: ["error", "double"],
     semi: ["error", "always"],
 
